@@ -1,0 +1,91 @@
+Implement a problem of activity selection problem with K persons. 
+Statement: Given two arrays S[] and E[] of size N denoting starting and 
+closing time of the shops and an integer value K denoting the number 
+of people, the task is to find out the maximum number of shops they 
+can visit in total if they visit each shop optimally based on the following 
+conditions: 
+ A shop can be visited by only one person. 
+ A person cannot visit another shop if its timing collides with it.
+
+#include<iostream>
+using namespace std;
+
+// structure to store shop start and end times
+struct shop {
+    int start;
+    int end;
+};
+
+void sortByEndTime(shop shops[], int N)
+{
+    for (int i = 0; i < N - 1; i++)
+    {
+        for (int j = 0; j < N - i - 1; j++)
+        {
+            if (shops[j].end > shops[j + 1].end)
+            {
+                shop temp = shops[j];
+                shops[j] = shops[j + 1];
+                shops[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int maxShops(int S[], int E[], int N, int K)
+{
+    shop shops[100]; // increased size for safety
+    for (int i = 0; i < N; i++)
+    {
+        shops[i].start = S[i];
+        shops[i].end = E[i];
+    }
+
+    sortByEndTime(shops, N);
+
+    int personEndTime[100];
+    for (int i = 0; i < K; i++)
+    {
+        personEndTime[i] = -99; // initially available
+    }
+
+    int count = 0;
+
+    for (int i = 0; i < N; i++)
+    {
+        for (int p = 0; p < K; p++)
+        {
+            if (personEndTime[p] <= shops[i].start)
+            {
+                personEndTime[p] = shops[i].end;
+                count++;
+                break;
+            }
+        }
+    }
+    return count;
+}
+
+int main()
+{
+    int N, K;
+    cout << "Enter number of shops: ";
+    cin >> N;
+
+    cout << "Enter number of persons: ";
+    cin >> K;
+
+    int S[100], E[100];
+
+    cout << "Enter start and end time for each shop:\n";
+    for (int i = 0; i < N; i++)
+    {
+        cout << "Shop " << i + 1 << " start time: ";
+        cin >> S[i];
+        cout << "Shop " << i + 1 << " end time: ";
+        cin >> E[i];
+    }
+
+    cout << "\nMax shops visited: " << maxShops(S, E, N, K) << endl;
+    return 0;
+}
