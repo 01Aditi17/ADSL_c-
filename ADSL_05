@@ -10,7 +10,6 @@ conditions:
 #include<iostream>
 using namespace std;
 
-// structure to store shop start and end times
 struct shop {
     int start;
     int end;
@@ -34,7 +33,7 @@ void sortByEndTime(shop shops[], int N)
 
 int maxShops(int S[], int E[], int N, int K)
 {
-    shop shops[100]; // increased size for safety
+    shop shops[100]; 
     for (int i = 0; i < N; i++)
     {
         shops[i].start = S[i];
@@ -46,7 +45,7 @@ int maxShops(int S[], int E[], int N, int K)
     int personEndTime[100];
     for (int i = 0; i < K; i++)
     {
-        personEndTime[i] = -99; // initially available
+        personEndTime[i] = -99; 
     }
 
     int count = 0;
